@@ -32,3 +32,4 @@ if __name__ == "__main__":
     dataset = generate_data(1000)
     save_to_csv(dataset)
     print("Dataset generated successfully!")
+    
