@@ -9,23 +9,27 @@ model_path = os.path.join(current_dir, '../models/model.pkl')
 # Load model once (important for performance)
 model = joblib.load(model_path)
 
-
 def predict_status(temperature, flow_rate, water_level):
     try:
-        # Convert input into proper format
-        data = np.array([[temperature, flow_rate, water_level]])
-
-        # Make prediction
+        # Convert to float to be safe
+        t, f, l = float(temperature), float(flow_rate), float(water_level)
+        data = np.array([[t, f, l]])
+        
         prediction = model.predict(data)[0]
 
-        # Convert numeric output to label
-        if prediction == 0:
-            return "normal"
-        else:
-            return "blockage"
+        # THIS PRINT IS CRITICAL - CHECK YOUR TERMINAL FOR THIS:
+        print(f"\n--- ML DEBUG ---")
+        print(f"Inputs: Temp={t}, Flow={f}, Level={l}")
+        print(f"Model raw output: {prediction}")
+        print(f"----------------\n")
 
+        # In your training.py: normal=0, blockage=1
+        if int(prediction) == 1:
+            return "blockage"
+        else:
+            return "normal"
     except Exception as e:
-        print("Prediction Error:", e)
+        print("Error in predict_status:", e)
         return "error"
 
 def estimate_rul(temperature, flow_rate, water_level):
@@ -87,4 +91,4 @@ def explain_status(temperature, flow_rate, water_level, status):
     return {
         "explanation": " ".join(explanation),
         "maintenance_action": " ".join(actions)
-    }
+    }
