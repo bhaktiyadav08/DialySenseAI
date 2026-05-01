@@ -8,7 +8,6 @@
 [![MongoDB](https://img.shields.io/badge/MongoDB-7.0-47A248?style=flat-square&logo=mongodb)](https://mongodb.com)
 [![XGBoost](https://img.shields.io/badge/XGBoost-2.0-orange?style=flat-square)](https://xgboost.readthedocs.io)
 [![ESP32](https://img.shields.io/badge/ESP32-Arduino-red?style=flat-square&logo=arduino)](https://espressif.com)
-[![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
  
 🏆 **3rd Place — Tech Forge Innovation 2K26**
  
