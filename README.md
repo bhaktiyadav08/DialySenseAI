@@ -82,64 +82,7 @@ DialySenseAI is a real-time IoT monitoring and ML-based fault detection system t
 | Communication | HTTP over WiFi |
  
 ---
- 
-## 🔧 Hardware Components
- 
-| Component | Model | Purpose |
-|-----------|-------|---------|
-| Microcontroller | ESP32 | WiFi, web server, sensor control |
-| Temperature Sensor | DS18B20 | Monitors fluid temperature |
-| Flow Sensor | YF-S201 | Measures fluid flow rate |
-| Ultrasonic Sensor | HC-SR04 | Measures outlet fluid level |
-| Display | 16x2 LCD I2C | On-device live status |
-| Relay Module | 5V Relay | Auto shutdown on fault |
-| Buzzer | Active Buzzer | Audio alert on fault |
- 
----
- 
-## 📁 Project Structure
- 
-```
-DialySenseAI/
-├── backend/
-│   ├── app.py                  # Flask app, ESP32 poller, REST API
-│   ├── export_data.py          # MongoDB → CSV export for retraining
-│   ├── routes.py
-│   ├── utils.py
-│   ├── ml/
-│   │   ├── predict.py          # XGBoost inference, RUL, Explainable AI
-│   │   ├── training.py         # Model training script
-│   │   ├── simulator.py        # Fake data sender for offline testing
-│   │   └── dataset_generator.py
-│   ├── models/
-│   │   └── model.pkl           # Trained XGBoost model
-│   └── data/
-│       ├── raw/
-│       │   └── dataset.csv
-│       └── processed/
-├── frontend/
-│   ├── src/
-│   │   ├── App.jsx             # Main layout
-│   │   ├── index.css           # All styles
-│   │   ├── hooks/
-│   │   │   └── useDashboard.js # Data fetching hook
-│   │   └── components/
-│   │       ├── Header.jsx
-│   │       ├── StatusBanner.jsx
-│   │       ├── SensorCard.jsx
-│   │       ├── StatsRow.jsx
-│   │       ├── LiveCharts.jsx
-│   │       ├── HistoryTable.jsx
-│   │       └── ManualPredict.jsx
-│   ├── index.html
-│   ├── package.json
-│   └── vite.config.js
-└── esp32/
-    └── esp32_dialysense.ino    # ESP32 firmware
-```
- 
----
- 
+
 ## 🚀 Getting Started
  
 ### Prerequisites
@@ -312,9 +255,5 @@ python -m backend.app
 - Cloud deployment for remote monitoring
 - Mobile app for technician alerts
 - Multi-machine support for hospital-wide monitoring
----
-
-<div align="center">
-  Built with ❤️ for safer dialysis · DialySenseAI © 2026
-</div>
+  
  
