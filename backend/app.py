@@ -190,11 +190,22 @@ def home():
 
 @app.route('/api/latest', methods=['GET'])
 def get_latest():
+    record = collection.find_one(
+        {},
+        sort=[("timestamp", -1)]
+    )
 
-    if not latest_reading:
+    if not record:
         return jsonify({"error": "No data yet"}), 200
 
-    return jsonify(latest_reading), 200
+    record["_id"] = str(record["_id"])
+    record["timestamp"] = (
+        record["timestamp"].isoformat()
+        if hasattr(record["timestamp"], "isoformat")
+        else str(record["timestamp"])
+    )
+
+    return jsonify(record), 200
 
 @app.route('/api/history', methods=['GET'])
 def get_history():
