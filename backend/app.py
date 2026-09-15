@@ -7,6 +7,7 @@ import threading
 import requests
 import time
 import os
+import random
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 BASE_DIR      = os.path.dirname(os.path.abspath(__file__))
@@ -30,6 +31,92 @@ POLL_INTERVAL = 2   # seconds
 
 # ── In-memory cache for latest reading ───────────────────────────────────────
 latest_reading = {}
+def run_simulator():
+    global latest_reading
+
+    step = 0
+
+    while True:
+        try:
+            cycle = step % 40
+
+            # NORMAL OPERATION
+            if cycle < 15:
+                temperature = random.uniform(27, 30)
+                flow_rate = random.uniform(390, 410)
+                water_level = random.uniform(18, 22)
+
+            # GRADUAL RESTRICTION
+            elif cycle < 30:
+                progress = (cycle - 15) / 15
+
+                temperature = random.uniform(27, 30)
+                flow_rate = 400 - (progress * 70)
+                water_level = random.uniform(18, 22)
+
+            # PROGRESSIVE ABNORMALITY
+            else:
+                temperature = random.uniform(28, 31)
+                flow_rate = random.uniform(315, 340)
+                water_level = random.uniform(16, 20)
+
+            temperature = round(temperature, 2)
+            flow_rate = round(flow_rate, 2)
+            water_level = round(water_level, 2)
+
+            ml_status = predictor.predict_status(
+                temperature,
+                flow_rate,
+                water_level
+            )
+
+            rul = predictor.estimate_rul(
+                temperature,
+                flow_rate,
+                water_level
+            )
+
+            xai = predictor.explain_status(
+                temperature,
+                flow_rate,
+                water_level,
+                ml_status
+            )
+
+            record = {
+                "temperature": temperature,
+                "flow_rate": flow_rate,
+                "water_level": water_level,
+                "status": ml_status,
+                "esp_fault": False,
+                "esp_fault_msg": "Simulator data",
+                "ml_status": ml_status,
+                "rul_percent": rul,
+                "explanation": xai["explanation"],
+                "maintenance_action": xai["maintenance_action"],
+                "timestamp": datetime.now()
+            }
+
+            collection.insert_one(record)
+
+            record["_id"] = str(record["_id"])
+            record["timestamp"] = record["timestamp"].isoformat()
+
+            latest_reading = record
+
+            print(
+                f"[SIMULATOR] Flow={flow_rate} | "
+                f"Temp={temperature} | "
+                f"Level={water_level} | "
+                f"Status={ml_status}"
+            )
+
+            step += 1
+            time.sleep(5)
+
+        except Exception as e:
+            print(f"[SIMULATOR] Error: {e}")
+            time.sleep(5)
 
 # ── Background Poller ─────────────────────────────────────────────────────────
 def poll_esp32():
@@ -86,14 +173,20 @@ def poll_esp32():
 if ESP32_URL:
     poller_thread = threading.Thread(target=poll_esp32, daemon=True)
     poller_thread.start()
-
+if not ESP32_URL:
+    simulator_thread = threading.Thread(
+        target=run_simulator,
+        daemon=True
+    )
+    simulator_thread.start()
 # ── Routes ────────────────────────────────────────────────────────────────────
 
 @app.route('/')
-def serve_react():
-    return send_from_directory(app.static_folder, 'index.html')
-
-
+def home():
+    return jsonify({
+        "service": "DialySenseAI Backend",
+        "status": "running"
+    }), 200
 
 @app.route('/api/latest', methods=['GET'])
 def get_latest():
