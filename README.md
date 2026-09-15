@@ -248,7 +248,6 @@ python -m backend.app
  
 ## 🔭 Future Scope
  
-- Trend-based early warning before threshold breach
 - LSTM model for time-series prediction
 - Risk score (0–100%) instead of binary normal/fault
 - Cloud deployment for remote monitoring
