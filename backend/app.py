@@ -93,10 +93,7 @@ if ESP32_URL:
 def serve_react():
     return send_from_directory(app.static_folder, 'index.html')
 
-@app.errorhandler(404)
-def not_found(e):
-    # Let React Router handle client-side routes
-    return send_from_directory(app.static_folder, 'index.html')
+
 
 @app.route('/api/latest', methods=['GET'])
 def get_latest():
