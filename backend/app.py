@@ -43,7 +43,7 @@ def run_simulator():
             # NORMAL OPERATION
             if cycle < 15:
                 temperature = random.uniform(27, 30)
-                flow_rate = random.uniform(390, 410)
+                flow_rate = random.uniform(800,1000)
                 water_level = random.uniform(18, 22)
 
             # GRADUAL RESTRICTION
@@ -51,13 +51,13 @@ def run_simulator():
                 progress = (cycle - 15) / 15
 
                 temperature = random.uniform(27, 30)
-                flow_rate = 400 - (progress * 70)
+                flow_rate = 900 - (progress * 300)
                 water_level = random.uniform(18, 22)
 
             # PROGRESSIVE ABNORMALITY
             else:
                 temperature = random.uniform(28, 31)
-                flow_rate = random.uniform(315, 340)
+                flow_rate = random.uniform(550,650)
                 water_level = random.uniform(16, 20)
 
             temperature = round(temperature, 2)
