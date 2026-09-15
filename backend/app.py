@@ -16,13 +16,15 @@ app = Flask(__name__, static_folder=FRONTEND_DIST, static_url_path='')
 CORS(app)
 
 # ── MongoDB ──────────────────────────────────────────────────────────────────
-client = MongoClient("mongodb://localhost:27017/")
+MONGO_URI = os.environ.get("MONGO_URI", "mongodb://localhost:27017/")
+
+client = MongoClient(MONGO_URI)
 db = client["dialysense"]
 collection = db["sensor_data"]
 
 # ── ESP32 Config ─────────────────────────────────────────────────────────────
-ESP32_IP = os.environ.get("ESP32_IP", "10.81.254.246")   # change or set env var
-ESP32_URL = f"http://{ESP32_IP}/json"
+ESP32_IP = os.environ.get("ESP32_IP")
+ESP32_URL = f"http://{ESP32_IP}/json" if ESP32_IP else None
 POLL_INTERVAL = 2   # seconds
 
 
@@ -81,8 +83,9 @@ def poll_esp32():
 
 
 # Start poller in background
-poller_thread = threading.Thread(target=poll_esp32, daemon=True)
-poller_thread.start()
+if ESP32_URL:
+    poller_thread = threading.Thread(target=poll_esp32, daemon=True)
+    poller_thread.start()
 
 # ── Routes ────────────────────────────────────────────────────────────────────
 
