@@ -14,9 +14,9 @@ export function useDashboard() {
     const fetchAll = async () => {
       try {
         const [latestRes, historyRes, statsRes] = await Promise.all([
-          fetch("${API_URL}/api/latest"),
-          fetch("${API_URL}/api/history?limit=30"),
-          fetch("${API_URL}/api/stats"),
+          fetch(`${API_URL}/api/latest`),
+          fetch(`${API_URL}/api/history?limit=30`),
+          fetch(`${API_URL}/api/stats`),
         ]);
 
         if (latestRes.ok) {
