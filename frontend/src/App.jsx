@@ -1,15 +1,15 @@
-import { useState } from "react";
 import "./index.css";
 
 import Header       from "./components/Header";
-import HistoryTable from "./components/HistoryTable";
+import HistoryTable from "./components/Historytable";
 import LiveCharts   from "./components/Livecharts";
+import Maintenance  from "./components/Maintenance";
+import ManualPredict from "./components/ManualPredict";
 import SensorCard   from "./components/SensorCard";
 import StatsRow     from "./components/StatsRow";
-import StatusBanner from "./components/StatusBanner";
-import ManualPredict from "./components/ManualPredict";
-import Maintenance  from "./components/Maintenance";
+import StatusBanner from "./components/Statusbanner";
 import { useDashboard } from "./hooks/useDashboard";
+import { useState } from "react";
 
 export default function App() {
   const { latest, history, stats, online, lastPoll } = useDashboard();
