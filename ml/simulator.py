@@ -1,8 +1,14 @@
 import requests
 import random
 import time
+import os
 
-URL = "http://127.0.0.1:5000/predict"
+BASE_URL = os.environ.get(
+    "API_URL",
+    "http://127.0.0.1:5000"
+)
+
+URL = BASE_URL + "/predict"
 
 while True:
     # 50% chance to generate a "Normal" state vs a "Faulty" state
