@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+const API_URL = import.meta.env.VITE_API_URL;
 const POLL_MS = 2000;
 
 export function useDashboard() {
@@ -13,9 +14,9 @@ export function useDashboard() {
     const fetchAll = async () => {
       try {
         const [latestRes, historyRes, statsRes] = await Promise.all([
-          fetch("/api/latest"),
-          fetch("/api/history?limit=30"),
-          fetch("/api/stats"),
+          fetch("${API_URL}/api/latest"),
+          fetch("${API_URL}/api/history?limit=30"),
+          fetch("${API_URL}/api/stats"),
         ]);
 
         if (latestRes.ok) {
