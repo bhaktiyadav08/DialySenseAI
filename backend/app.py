@@ -100,9 +100,11 @@ def not_found(e):
 
 @app.route('/api/latest', methods=['GET'])
 def get_latest():
+
     if not latest_reading:
-        return jsonify({"error": "No data yet"}), 503
-    return jsonify(latest_reading)
+        return jsonify({"error": "No data yet"}), 200
+
+    return jsonify(latest_reading), 200
 
 @app.route('/api/history', methods=['GET'])
 def get_history():
