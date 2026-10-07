@@ -8,6 +8,8 @@ import requests
 import time
 import os
 import random
+from dotenv import load_dotenv
+load_dotenv()
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 BASE_DIR      = os.path.dirname(os.path.abspath(__file__))
